@@ -8,11 +8,13 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import jakarta.transaction.Transactional;
 import local.taskManager.myList.MyList;
 import local.taskManager.task.Task;
 
 
 @Service
+@Transactional
 public class BoardService {
 	
 	@Autowired
