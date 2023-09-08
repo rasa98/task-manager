@@ -47,17 +47,19 @@ public class UserService {
 		
 	}	
 
-	public boolean login(User u) {
+	public User login(User u) {
 		// TODO Auto-generated method stub
 		String user = u.getEmail();	
 		if(user == null)
-			return false;
+			return null;
 		Optional<User> exist = repo.findById(user);
 		if(exist.isEmpty()){
-			return false;			
+			return null;			
 		}
 		User encodedUser = exist.get();
-		return bcrypt.matches(u.getPass(), encodedUser.getPass());		
+		if(bcrypt.matches(u.getPass(), encodedUser.getPass()))
+			return encodedUser;
+		return null;
 	}
 
 

@@ -28,8 +28,8 @@ public class UserController {
 	
         
 	// Get user by ID
-    @GetMapping
-    public boolean login(@RequestBody User u) {
+    @PostMapping("/login")
+    public User login(@RequestBody User u) {
     	return userService.login(u);
     }	
 	
@@ -43,21 +43,8 @@ public class UserController {
     @PostMapping
     public boolean register(@RequestBody User u) {
         return userService.registerUser(u);     
-    }  
+    }   
     
-    @PostMapping("/{id}/addBoard")
-    public User addBoardToUser(@RequestBody Board board, @PathVariable String id) {
-    	Optional<User> ou = userService.getUserById(id);  	
-		if(ou.isEmpty())
-			throw new RuntimeException("Doslo je do greske, jer ne postoji user sa tim ID-om!");
-		User u = ou.get();	
-		board.setParentUser(u);
-		board = boardService.addBoard(board);
-		u.getBoards().add(board); // izbrisi kasnije da ne buni i mozda prebaci ovo u BoardControler
-		
-		
-		return userService.getUserById(id).get();		  	      
-    }
     
     @DeleteMapping("/{id}")
     public void deleteUserById(@PathVariable String id) {
