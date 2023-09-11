@@ -84,4 +84,14 @@ public class BoardService {
 		// TODO Auto-generated method stub
 		repo.deleteById(id);
 	}
+
+	public Board updateNameBoard(Board b) {
+		Optional<Board> ob = repo.findById(b.getId());
+		if(ob.isPresent()) {
+			Board exist = ob.get();
+			exist.setName(b.getName());
+			return repo.save(exist);
+		}
+		return null;
+	}
 }
