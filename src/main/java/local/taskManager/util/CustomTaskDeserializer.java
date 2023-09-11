@@ -33,6 +33,7 @@ public class CustomTaskDeserializer extends StdDeserializer<Task> {
         String name= null;
         int taskOrder= -1;
         int listId = 0;
+        Boolean is_done = null;
 
         // Check for the existence of key-value pairs in the JSON object
         if (node.has("id")) {
@@ -47,6 +48,9 @@ public class CustomTaskDeserializer extends StdDeserializer<Task> {
         if (node.has("parentId")) {
             listId = node.get("parentId").asInt();
         }
+        if (node.has("done")) {
+        	is_done = node.get("done").asBoolean();
+        }
 
         
         // Create a Task object with the parsed data
@@ -54,6 +58,7 @@ public class CustomTaskDeserializer extends StdDeserializer<Task> {
         task.setId(id);
         task.setTitle(name);
         task.setTaskOrder(taskOrder);
+        task.setDone(is_done);
         // Set other fields
         
         // Create a MyList object with the parsed listId

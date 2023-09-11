@@ -86,12 +86,15 @@ public class TaskService {
         // 3. Save the updated entity
 		return tr.save(existingTask);
 	}
-
+	
+	// only change tose that are sent, so check for default values
 	private void applyChangesOnTask(Task updatedTask, Task existingTask) {
 		if(updatedTask.getTitle() != null)
 			existingTask.setTitle(updatedTask.getTitle());
 		if(updatedTask.getTaskOrder() != -1)
 			existingTask.setTaskOrder(updatedTask.getTaskOrder());
+		if(updatedTask.getDone() != null)
+			existingTask.setDone(updatedTask.getDone());
 		if(updatedTask.getParentList() != null) {
 			MyList myList = updatedTask.getParentList();
 			myList = ls.getMyListById(myList.getId()); // todo  treba napomena ovde...			

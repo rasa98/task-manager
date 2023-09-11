@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -22,12 +23,15 @@ public class Task {
 	private String title;
 	private int taskOrder;
 	
+	@Column(name = "is_done")
+    private Boolean done = false;
+	
 	@ManyToOne	
 	private MyList parentList;
 	
 	public Task() {
 		super();
-		this.taskOrder = -1;
+		this.taskOrder = -1;		
 	}
 	
 	
@@ -67,14 +71,21 @@ public class Task {
 
 	public void setTaskOrder(int taskOrder) {
 		this.taskOrder = taskOrder;
+	}	
+	
+
+	public Boolean getDone() {
+		return done;
 	}
 
+	public void setDone(Boolean done) {
+		this.done = done;
+	}
 
 
 	public MyList getParentList() {
 		return parentList;
 	}
-
 
 
 	public void setParentList(MyList parentList) {

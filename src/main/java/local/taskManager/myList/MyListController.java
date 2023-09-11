@@ -70,7 +70,7 @@ public class MyListController {
     }  
     
     @DeleteMapping("/{id}")
-    public void deleteTaskById(@PathVariable Integer id) {
-    	myListService.deleteTaskById(id);        
+    public void deleteMyListById(@PathVariable Integer id) {
+    	myListService.deleteMyListById(id);        
     }
 }

@@ -84,7 +84,7 @@ public class MyListService {
 	    return orderedEntities;
 	}
 
-	public void deleteTaskById(Integer id) {
+	public void deleteMyListById(Integer id) {
 		// TODO Auto-generated method stub
 		repo.deleteById(id);
 	}
