@@ -1,8 +1,10 @@
 package local.taskManager.board;
 
+import local.taskManager.board.snapshot.BoardSnapshot;
 import local.taskManager.myList.MyList;
 import local.taskManager.user.User;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -10,6 +12,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -34,6 +37,10 @@ public class Board {
 	@JsonIgnore
 	private User parentUser;
 	
+	@OneToMany(mappedBy = "board", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JsonIgnore
+    private List<BoardSnapshot> snapshots = new ArrayList<>();
+	
 	public Board() {
 		super();
 	}	
@@ -44,7 +51,19 @@ public class Board {
 		this.name = name;
 		this.arrayOfLists = arrayOfLists;
 	}
+	
+	public void addSnapshot(BoardSnapshot snapshot) {
+        snapshots.add(snapshot);
+        snapshot.setBoard(this);
+    }	
 
+	public List<BoardSnapshot> getSnapshots() {
+		return snapshots;
+	}
+
+	public void setSnapshots(List<BoardSnapshot> snapshots) {
+		this.snapshots = snapshots;
+	}
 
 	public int getId() {
 		return id;

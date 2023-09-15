@@ -28,6 +28,8 @@ public class TaskService {
 	
 	public Task addTask(Task t) {
 		// TODO Auto-generated method stub
+		if(t.getDone() == null)
+			t.setDone(false);
 		return tr.save(t);
 	}
 	

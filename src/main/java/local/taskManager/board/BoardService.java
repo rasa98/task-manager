@@ -1,5 +1,6 @@
 package local.taskManager.board;
 
+import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -9,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
+import local.taskManager.board.snapshot.BoardSnapshot;
+import local.taskManager.board.snapshot.BoardSnapshotRepository;
 import local.taskManager.myList.MyList;
 import local.taskManager.task.Task;
 
@@ -19,6 +22,9 @@ public class BoardService {
 	
 	@Autowired
 	private BoardRepo repo;
+	
+	@Autowired
+    private BoardSnapshotRepository boardSnapshotRepository;
 	
 	public Board addBoard(Board t) {
 		// TODO Auto-generated method stub
@@ -94,4 +100,35 @@ public class BoardService {
 		}
 		return null;
 	}
+	
+	public BoardSnapshot createSnapshot(Integer boardId) {
+	    Board board = repo.findById(boardId).orElse(null);
+
+	    if (board == null) {
+	        return null;
+	    }
+	 
+        long totalTasks = board.getArrayOfLists().stream()
+                .flatMap(list -> list.getTaskList().stream()).count();
+        long completedTasks = board.getArrayOfLists().stream()
+                .flatMap(list -> list.getTaskList().stream())
+                .filter(Task::getDone).count();
+        long undoneTasks = totalTasks - completedTasks;
+
+        BoardSnapshot snapshot = new BoardSnapshot();
+        snapshot.setSnapshotDate(LocalDateTime.now());
+        snapshot.setTotalTasks((int) totalTasks);
+        snapshot.setCompletedTasks((int) completedTasks);
+        snapshot.setUndoneTasks((int) undoneTasks);
+        
+        snapshot.setBoard(board);
+
+        // Save the snapshot
+        return boardSnapshotRepository.save(snapshot);
+	}
+    
+    public List<BoardSnapshot> getSnapshotsForBoard(Integer boardId) {
+        // Retrieve snapshots for the specified board
+        return boardSnapshotRepository.findByBoardId(boardId);
+    }
 }

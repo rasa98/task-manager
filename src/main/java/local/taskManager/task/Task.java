@@ -23,8 +23,8 @@ public class Task {
 	private String title;
 	private int taskOrder;
 	
-	@Column(name = "is_done")
-    private Boolean done = false;
+	@Column(name = "is_done")	
+    private Boolean done;
 	
 	@ManyToOne	
 	private MyList parentList;

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import local.taskManager.board.snapshot.BoardSnapshot;
 import local.taskManager.myList.MyList;
 import local.taskManager.myList.MyListService;
 import local.taskManager.user.User;
@@ -86,5 +87,15 @@ public class BoardController {
     @DeleteMapping("/{id}")
     public void deleteBoardById(@PathVariable Integer id) {
     	boardService.deleteBoardById(id);        
+    }
+    
+    @PostMapping("/{boardId}/create-snapshot")
+    public BoardSnapshot createSnapshot(@PathVariable Integer boardId) {
+        return boardService.createSnapshot(boardId);
+    }
+
+    @GetMapping("/{boardId}/snapshots")
+    public List<BoardSnapshot> getSnapshotsForBoard(@PathVariable Integer boardId) {
+        return boardService.getSnapshotsForBoard(boardId);
     }
 }
